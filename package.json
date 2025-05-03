@@ -1,0 +1,38 @@
+{
+  "name": "adminecom",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "aws s3 sync ./dist s3://finance-grad --delete --profile account1"
+  },
+  "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^41.3.0",
+    "@ckeditor/ckeditor5-vue": "^5.1.0",
+    "@quasar/extras": "^1.15.1",
+    "axios": "^0.27.2",
+    "bootstrap": "^5.2.0",
+    "chart.js": "^4.4.2",
+    "diff": "^7.0.0",
+    "html2pdf.js": "^0.10.3",
+    "lodash.debounce": "^4.0.8",
+    "lucide-vue-next": "^0.474.0",
+    "moment": "^2.29.4",
+    "quasar": "^2.7.7",
+    "read-excel-file": "^5.8.0",
+    "v-pagination-3": "^0.1.7",
+    "vue": "^3.2.37",
+    "vue-universal-modal": "^1.1.4",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@quasar/vite-plugin": "^1.1.1",
+    "@vitejs/plugin-vue": "^3.0.3",
+    "sass": "^1.32.12",
+    "vite": "^3.0.7",
+    "vue-router": "^4.1.3"
+  }
+}
