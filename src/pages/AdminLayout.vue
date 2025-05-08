@@ -12,18 +12,7 @@
                         </div>
                         <div class="col-3 col-md-8">
                             <div class="navbar-container">
-                                <div class="nav-item">
-                                    <i class='bx bxs-shield'></i> SESSION : 2024-2025
-                                </div>
-                                <div class="nav-item">
-                                    <i class='bx bx-book'></i> DAY BOOK
-                                </div>
-                                <div class="nav-item">
-                                    <i class='bx bx-money'></i> CASH BOOK
-                                </div>
-                                <div class="nav-item">
-                                    <i class='bx bx-line-chart'></i> VOUCHER ENTRIES
-                                </div>
+                               
                                 <div class="nav-item profile">
                                     <i class='bx bxs-user-circle'></i> 
                                     {{ loggedinuser?.name }}
@@ -125,14 +114,11 @@ export default {
     border-right: 1px solid #ddd;
     cursor: pointer;
 }
-
 .nav-item:last-child {
     border-right: none;
 }
-
 .nav-item i {
     font-size: 20px;
-    margin-right: 8px;
     color: #007483;
 }
 

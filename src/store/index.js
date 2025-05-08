@@ -82,7 +82,7 @@ export default createStore({
 		list: [],
 		filecomponents: [],
 		finance:null,
-		addpageheading: 'Finance management',
+		addpageheading: 'Call To Action',
 		selectcategoriesitem: [],
 		Ckeditortext: [],
 		distributors: [],

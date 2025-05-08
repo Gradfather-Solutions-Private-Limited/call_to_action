@@ -217,7 +217,7 @@
                             <td class="header">Processing Fees :</td>
                             <td class="header"><b>{{ loanaccount?.filecharge }}</b></td>
                             <td class="header">Late Fee</td>
-                            <td class="header"></td>
+                            <td class="header"><b>{{ loanaccount?.late_fee }}</b></td>
                         </tr>
                         <tr>
                             <td>Amount to be Paid :</td>
@@ -940,6 +940,7 @@ export default {
             axios.post('api/users/loan/emis', param)
                 .then(response => {
                     this.loanaccount = response.data.loanaccount;
+                    console.log(this.loanaccount);
                     this.emilists = response.data.loanemi;
                 })
         },

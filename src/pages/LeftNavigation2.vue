@@ -8,84 +8,31 @@
             <li>
                 <span class="left-menu-text">MENU</span>
             </li>
-
             <li>
-                <router-link to="/dashboard">
-                    <i class='bx bx-tachometer'></i>
-                    <span class="link_name">Dashboard</span>
+                <router-link to="/patientmanager">
+                    <i class='bx bx-user-plus'></i>
+                    <span class="link_name">Patient</span>
                 </router-link>
             </li>
             <li>
                 <router-link to="/users">
-                    <i class='bx bx-user'></i>
-                    <span class="link_name">User form</span>
+                    <i class='bx bx-buildings'></i>
+                    <span class="link_name">Institute</span>
                 </router-link>
             </li>
             <li>
-                <div class="iocn-link">
-                    <a href="#" class="icon-set">
-                        <i class='bx bx-list-ul'></i>
-                        <span class="link_name ">Loan</span>
-                    </a>
-                    <i class='bx bxs-chevron-down arrow'></i>
-                </div>
-                <ul class="sub-menu">
-                    <li class="nav-menu">
-                        <router-link to="/loan-form">
-                            <i class='bx bx-right-arrow-alt'></i>
-                            <span class="titlesize">Loan Form</span>
-                        </router-link>
-                    </li>
-                    <li class="nav-menu">
-                        <router-link to="/loan-accounts">
-                            <i class='bx bx-right-arrow-alt'></i>
-                            <span class="titlesize">Loan Accounts</span>
-                        </router-link>
-                    </li>
-                    <li class="nav-menu">
-                        <router-link to="/loanLedgers">
-                            <i class='bx bx-right-arrow-alt'></i>
-                            <span class="titlesize">Loan Ledgers</span>
-                        </router-link>
-                    </li>
-
-                </ul>
-            </li>
-            <li>
-                <router-link to="/user-type-ledgers">
-                    <i class='bx bx-user'></i>
-                    <span class="link_name">Ledgers</span>
+                <router-link to="/hospitalmanager">
+                    <i class='bx bx-plus-medical'></i>
+                    <span class="link_name">Nursing Home</span>
                 </router-link>
             </li>
             <li>
-                <router-link to="/all-enach">
+                <router-link to="/studentmanager">
                     <i class='bx bx-user'></i>
-                    <span class="link_name">All ENach</span>
+                    <span class="link_name">Students</span>
                 </router-link>
             </li>
-            <li>
-                <router-link to="/registers">
-                    <i class='bx bx-user'></i>
-                    <span class="link_name">Registers</span>
-                </router-link>
-            </li>
-            <li>
-                <div class="iocn-link">
-                    <a href="#" class="icon-set">
-                        <i class='bx bx-list-ul'></i>
-                        <span class="link_name ">Report</span>
-                    </a>
-                    <i class='bx bxs-chevron-down arrow'></i>
-                </div>
-                <ul class="sub-menu">
-                    <li class="nav-menu">
-                        <router-link to="/schedule-emis">
-                            <i class='bx bx-right-arrow-alt'></i>
-                            <span class="titlesize">Schedule Emi </span>
-                        </router-link>
-                    </li>
-                </ul>
-            </li>
+          
             <li>
                 <router-link to="logout" @click="logout()">
                     <i class='bx bx-log-out-circle'></i>
