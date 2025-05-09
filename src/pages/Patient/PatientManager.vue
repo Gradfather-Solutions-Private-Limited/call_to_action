@@ -114,7 +114,10 @@ import PatientreportPdf from '../pdf/PatientreportPdf.vue';
               parsed.courses = {};
             }
 
-            return parsed;
+            return {
+              id: item.id,
+              ...parsed
+            };
           });
           console.log(this.patients);
           this.pagination.current_page = current_page;
@@ -138,7 +141,7 @@ import PatientreportPdf from '../pdf/PatientreportPdf.vue';
       },
       openForm() {
         this.showForm = true;
-        this.isEditing = 1;
+        this.isEditing = 0;
         this.currentPatient = null;
       },
       editPatient(index) {
@@ -157,23 +160,32 @@ import PatientreportPdf from '../pdf/PatientreportPdf.vue';
           this.showForm = false;
         }
       },
-      handleSubmit(event) {
-        event.preventDefault(); // prevent actual submission if needed
+      // handleSubmit(event) {
+      //   event.preventDefault(); // prevent actual submission if needed
 
-        const submitter = event.submitter; // get the button that submitted the form
-        const buttonValue = submitter?.value;
+      //   const submitter = event.submitter; // get the button that submitted the form
+      //   const buttonValue = submitter?.value;
 
-        console.log('Submit button value:', buttonValue);
-      },
-      // handleSubmit(form) {
-      //   console.log('handleSubmit',form);
-      //   if (this.isEditing) {
-      //     this.patients.splice(this.editIndex, 1, form);
-      //   } else {
-      //     this.patients.push(form);
-      //   }
-      //   this.cancelForm();
+      //   console.log('Submit button value:', buttonValue);
       // },
+      handleSubmit(form) {
+        console.log('handleSubmit',form);
+        const{ id, ...formWithoutId} = form;
+        const jsonEncoded = JSON.stringify(formWithoutId);
+        const payload={
+          id:id,
+          jsontext:jsonEncoded
+        };
+        console.log('payload',payload);
+        if (this.isEditing) {
+          console.log('undr if');
+          this.patients.splice(this.editIndex, 1, form);
+        } else {
+          console.log('e;se');
+          this.patients.push(form);
+        }
+        this.cancelForm();
+      },
       cancelForm() {
         this.showForm = false;
         this.isEditing = false;

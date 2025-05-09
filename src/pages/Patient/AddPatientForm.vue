@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="submitForm">
+  <form>
     <div class="row">
       <div class="col-md-3 mb-3">
         <label>Patient Type</label>
@@ -102,7 +102,7 @@
 
 
         <div class="col-md-12">
-          <button type="submit" class="btn btn-success w-100">Submit Data</button>
+          <button @click="submitForm" class="btn btn-success w-100">Submit Data</button>
           <button class="btn btn-secondary w-100 mt-2" @click.prevent="$emit('cancel')">Cancel</button>
         </div>
       </div>
@@ -132,6 +132,7 @@ export default {
         courses: {},
         description: '',
         email: '',
+        id:'',
         fees: '',
         gender: '',
         ifsc: '',
@@ -154,8 +155,9 @@ export default {
       immediate: true,
       handler(newVal) {
         if (newVal) {
-          console.log(newVal);
+        
           this.form = {
+            id : newVal.id || '',
             account_name: newVal.account_name || '',
             account_number: newVal.account_number || '',
             adhar: newVal.adhar || '',
@@ -198,7 +200,7 @@ export default {
         alert('Please accept the declaration to submit');
         return;
       }
-      
+      this.$emit('submit',this.form);
     }
   }
 };
