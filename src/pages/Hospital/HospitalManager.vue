@@ -2,7 +2,6 @@
   <div class="card mt-10">
     <div class="card-body">
       <div v-if="!showForm">
-        <button class="btn btn-primary mb-3" @click="openForm">Add New Hospital</button>
         <table class="table table-bordered">
           <thead>
             <tr>
@@ -55,6 +54,7 @@
 
 <script>
 import AddHospitalForm from './AddHospitalForm.vue';
+import { mapGetters } from 'vuex'
 
 export default {
   components: { AddHospitalForm },
@@ -75,11 +75,15 @@ export default {
   mounted() {
     this.gethplist();
   },
+  computed: {
+        ...mapGetters(['loggedinuser']),
+    },
   methods: {
     gethplist(page = 1) {
-      axios.post(`api/university/lists?page=${page}`).then(response => {
-        console.log('hospital', response.data);
-        const { data, current_page, per_page, total } = response.data;
+      let parm= {companyid:109}
+      axios.post(`api/nursing/records?page=${page}`,parm).then(response => {
+        
+        let data = response.data.records;
         this.hospitals = data.map((item) => {
           let parsed = JSON.parse(item.jsontext);
           try {
@@ -127,15 +131,23 @@ export default {
       const jsonEncoded = JSON.stringify(formWithoutId);
       const payload = {
         id: id,
-        jsontext: jsonEncoded
+        jsontext: jsonEncoded,
+        companyid:this.loggedinuser.companyid,
       };
-      if (this.isEditing) {
+      axios.post('api/nursing/home/create',payload)
+        .then(response=>{
+          if(response.data){
+            this.showForm = false;
+            this.gethplist(this.pagination.current_page);
+          }
+        })
+      // if (this.isEditing) {
        
-        this.hospitals.splice(this.editIndex, 1, form);
-      } else {
+      //   this.hospitals.splice(this.editIndex, 1, form);
+      // } else {
         
-        this.hospitals.push(form);
-      }
+      //   this.hospitals.push(form);
+      // }
       this.cancelForm();
     },
 

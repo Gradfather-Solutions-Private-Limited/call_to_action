@@ -1,5 +1,4 @@
 <template>
-  <form>
     <div class="row">
       <div class="col-md-3 mb-3">
         <label>Patient Type</label>
@@ -107,7 +106,6 @@
         </div>
       </div>
       </div>
-  </form>
 </template>
 
 <script>
@@ -194,8 +192,7 @@ export default {
   methods: {
 
     submitForm() {
-      console.log(this.form);
-      this.$emit('submit', this.form);
+      
       if (!this.form.declaration) {
         alert('Please accept the declaration to submit');
         return;

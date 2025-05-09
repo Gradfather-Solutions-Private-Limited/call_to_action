@@ -1,5 +1,5 @@
 <template>
-    <div class="card mt-10">
+    <div class="card mt-10" v-if="formview == 1">
         <div class="card-body">
             <form @submit.prevent="submitStudent">
                 <div class="row">
@@ -57,7 +57,7 @@
             </form>
         </div>
     </div>
-    <div class="card mt-10">
+    <div class="card mt-10" v-if="formview==0">
         <div class="cord-body">
             <table class="table table-bordered">
                 <thead>
@@ -83,6 +83,23 @@
                     </tr>
                 </tbody>
             </table>
+            <div class="mt-3">
+          <button
+            class="btn btn-sm btn-secondary me-2"
+            :disabled="pagination.current_page === 1"
+            @click="changePage(pagination.current_page - 1)"
+          >
+            Previous
+          </button>
+          <span>Page {{ pagination.current_page }}</span>
+          <button
+            class="btn btn-sm btn-secondary ms-2"
+            :disabled="pagination.current_page * pagination.per_page >= pagination.total"
+            @click="changePage(pagination.current_page + 1)"
+          >
+            Next
+          </button>
+        </div>
         </div>
     </div>
 </template>
@@ -102,8 +119,14 @@ export default {
                 institute: '',
                 courses: []
             },
+            pagination: {
+                current_page: 1,
+                per_page: 5,
+                total: 0
+            },
             courseList: ['Math', 'Science', 'English', 'History'],
             students: [],
+            formview:0,
             editIndex: null
         }
     },
@@ -111,8 +134,34 @@ export default {
         this.getstudentlogs();
     },
     methods: {
-        getstudentlogs(){
-            
+        getstudentlogs(page = 1) {
+            axios
+                .post(`api/student/lists?page=${page}`)
+                .then((response) => {
+                const { data, current_page, per_page, total } = response.data;
+
+                this.students = data.map((item) => {
+                    let parsed = JSON.parse(item.jsontext);
+                    // Parse inner courses string if present
+                    try {
+                        parsed.courses = JSON.parse(parsed.courses);
+                    } catch (e) {
+                    parsed.courses = {};
+                    }
+                    return {
+                    id: item.id,
+                    ...parsed
+                    };
+                });
+                console.log(this.students);
+                this.pagination.current_page = current_page;
+                this.pagination.per_page = per_page;
+                this.pagination.total = total;
+                })
+
+                .catch((error) => {
+                console.error('Failed to fetch patient list:', error);
+                });
         },
         submitStudent() {
             if (this.editIndex !== null) {
@@ -134,6 +183,7 @@ export default {
         editStudent(index) {
             this.student = { ...this.students[index] }
             this.editIndex = index
+            this.formview = 1;
         },
         resetForm() {
             this.student = {

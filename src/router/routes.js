@@ -18,6 +18,7 @@ const routes = [
       meta: {noheader:false, requiresAuth: true},//, redirectIfAuthenticated: true },
       children: [
         {
+          name:'studentmanager',
           path: '/studentmanager',
           component: () => import('../pages/student/StudentForm.vue'),
           
@@ -25,9 +26,10 @@ const routes = [
         {
           path: '/patientmanager',
           component: () => import('../pages/Patient/PatientManager.vue'),
-          
+          name:'patientmanager'
         },
         {
+          name:'hospitalmanager',
           path: '/hospitalmanager',
           component: () => import('../pages/Hospital/HospitalManager.vue'),
           

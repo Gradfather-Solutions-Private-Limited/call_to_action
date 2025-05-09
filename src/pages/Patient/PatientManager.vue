@@ -1,7 +1,6 @@
 <template>
     <div class="card mt-10">
       <div class="card-body" v-if="!showForm">
-        <button class="btn btn-primary mb-3" @click="openForm()">Add New Patient</button>
         <table class="table table-bordered">
           <thead>
             <tr>
@@ -77,7 +76,9 @@
   
   <script>
 import AddPatientForm from './AddPatientForm.vue';
+import { mapGetters } from 'vuex'
 import PatientreportPdf from '../pdf/PatientreportPdf.vue';
+import axios from 'axios';
   export default {
     components: { AddPatientForm,PatientreportPdf },
     data() {
@@ -96,6 +97,9 @@ import PatientreportPdf from '../pdf/PatientreportPdf.vue';
     },
     mounted(){
       this.getptlists();
+    },
+    computed: {
+        ...mapGetters(['loggedinuser']),
     },
     methods: {
       getptlists(page = 1) {
@@ -136,7 +140,6 @@ import PatientreportPdf from '../pdf/PatientreportPdf.vue';
         this.currentPatient = { ...this.patients[index] }; // shallow copy
     },
       changePage(page) {
-       
         this.getptlists(page);
       },
       openForm() {
@@ -160,31 +163,22 @@ import PatientreportPdf from '../pdf/PatientreportPdf.vue';
           this.showForm = false;
         }
       },
-      // handleSubmit(event) {
-      //   event.preventDefault(); // prevent actual submission if needed
-
-      //   const submitter = event.submitter; // get the button that submitted the form
-      //   const buttonValue = submitter?.value;
-
-      //   console.log('Submit button value:', buttonValue);
-      // },
       handleSubmit(form) {
-        console.log('handleSubmit',form);
         const{ id, ...formWithoutId} = form;
         const jsonEncoded = JSON.stringify(formWithoutId);
         const payload={
           id:id,
-          jsontext:jsonEncoded
+          jsontext:jsonEncoded,
+          companyid:this.loggedinuser.companyid,
         };
-        console.log('payload',payload);
-        if (this.isEditing) {
-          console.log('undr if');
-          this.patients.splice(this.editIndex, 1, form);
-        } else {
-          console.log('e;se');
-          this.patients.push(form);
-        }
-        this.cancelForm();
+        axios.post('api/patient/form/create',payload)
+        .then(response=>{
+          if(response.data){
+            this.showForm = false;
+            this.getptlists(this.pagination.current_page);
+          }
+           
+        })
       },
       cancelForm() {
         this.showForm = false;

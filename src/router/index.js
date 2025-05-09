@@ -28,7 +28,7 @@ router.beforeEach((to, from, next) => {
         if (user.is_admin == 1) {
           next()
         } else {
-          next({ name: 'dashboard' })
+          next({ name: 'patientmanager' })
         }
       } else {
         next()
@@ -38,7 +38,7 @@ router.beforeEach((to, from, next) => {
     if (localStorage.getItem('token') == null) {
       next()
     } else {
-      next({ name: 'dashboard' })
+      next({ name: 'patientmanager' })
     }
   } else {
     next()

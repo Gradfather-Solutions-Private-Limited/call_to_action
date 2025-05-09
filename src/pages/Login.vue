@@ -128,11 +128,7 @@ import Ls from '../lib/utils/Ls'
 				Ls.set('user',data.user)
 				this.$store.commit('assignloggedinuser',data.user)
 				console.log(data.user)
-				if(data?.user?.companyid==83){
-					this.$router.push({path:"/whatsapp/dashboard"})
-				}else {
-					this.$router.push({name:"dashboard"})
-				}
+				this.$router.push({name:"patientmanager"})
 				// this.$store.commit('assignloadingstatus',0)
 			} else {
 				this.displayError = true;
