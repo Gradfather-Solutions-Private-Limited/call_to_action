@@ -1,9 +1,9 @@
 <template>
     <div id="newsidebar" class="sidebar close">
-        <div class="logo-details">
+        <!-- <div class="logo-details">
             <img src='../assets/logo-sm.png' class="adjustImage" alt="logo" />
             <span class="logo_name">Finance System</span>
-        </div>
+        </div> -->
         <ul class="nav-links">
             <li>
                 <span class="left-menu-text">MENU</span>
