@@ -86,9 +86,9 @@
                 </thead>
                 <tbody>
                     <tr v-for="(s, index) in institutes" :key="index">
-                        <td>{{ getJsonExtract(s, 'name') }}</td>
-                        <td>{{ getJsonExtract(s, 'mobile') }}</td>
-                        <td>{{ getJsonExtract(s, 'email') }}</td>
+                        <td>{{ s.name }}</td>
+                        <td>{{ s.mobile }}</td>
+                        <td>{{ s.email  }}</td>
                         <td>{{ s.is_approved==0?'Pending':'Approved' }}</td>
                         <td> 
                             <button class="btn btn-sm btn-primary" @click="editInstitute(s, index)">
@@ -184,7 +184,18 @@ export default {
             let param = { page: this.page }
             axios.post('api/university/lists', param)
                 .then(response => {
-                    this.institutes = response.data.data
+                    const { data, current_page, per_page, total } = response.data;
+                    this.institutes = data.map((item) => {
+                        let parsed = JSON.parse(item?.jsontext);
+                        return {
+                            id: item.id,
+                            is_approved:item.is_approved,
+                            rolledback: item.rolledback,
+                            ...parsed
+                        };
+                    });
+                    console.log(this.institutes)
+                    // this.institutes = response.data.data
                     this.total_no_of_records = response.data.total;
                     this.pagination.last_page = response.data.last_page;
                 })
@@ -231,11 +242,19 @@ export default {
         },
         courseItem(event, item) {
             const isChecked = event.target.checked;
-            if (!this.institute.courses) {
-                this.institute.courses = Object.fromEntries(
-                    this.UNIVERSITY_COURSES.map(course => [course.name, false])
-                );
+
+            // Ensure courses is an object
+            if (!this.institute.courses || typeof this.institute.courses !== 'object') {
+                try {
+                    this.institute.courses = JSON.parse(this.institute.courses || '{}');
+                } catch (error) {
+                    console.error('Failed to parse courses:', error);
+                    this.institute.courses = Object.fromEntries(
+                        this.UNIVERSITY_COURSES.map(course => [course.name, false])
+                    );
+                }
             }
+
             // Update the specific course value
             this.institute.courses[item.name] = isChecked;
 
@@ -245,17 +264,12 @@ export default {
                 .map(course => course.id); // Assuming each course has an `id` property
             this.selectedcourses = selectedIds.join(',');
 
-            console.log(this.institute.courses, this.selectedcourses);
+            // console.log(this.institute.courses, this.selectedcourses);
         },
         uploaded() {
             console.log(this.uploadedimage)
             this.amazonid = this.uploadedimage.amazonid ?? 0
             this.imageurl = this.uploadedimage?.images?.downloadurl
-        },
-        getJsonExtract(item, val) {
-            let json = JSON.parse(item.jsontext)
-            console.log(json)
-            return json[val] ?? 'N/A'
         },
         goToPage(page) {
             if (this.pagination.current_page == page) {
@@ -284,7 +298,8 @@ export default {
                 city: parsedData.city || '',
                 country: parsedData.country || '',
                 state: parsedData.state || '',
-                courses: parsedData.courses || {}
+                courses: parsedData.courses || {},
+                
             };
 
             // Ensure checkboxes reflect the correct state
