@@ -14,7 +14,7 @@
                     </div>
                     <div class="mb-3 col-md-4">
                         <label class="form-label">Aadhaar</label>
-                        <input v-model="student.aadhaar" type="text" class="form-control" />
+                        <input v-model="student.adhar" type="text" class="form-control" />
                     </div>
                 </div>
 
@@ -40,13 +40,13 @@
                 <div class="row">
                     <div class="mb-3 col-md-4">
                         <label class="form-label">Institute</label>
-                        <input v-model="student.institute" type="text" class="form-control" />
+                        <input v-model="student.university_name" type="text" class="form-control" />
                     </div>
                     <div class="mb-3 col-md-4">
                         <label class="form-label">Courses</label>
-                        <select v-model="student.courses" class="form-select" multiple>
-                            <option v-for="course in courseList" :key="course" :value="course">
-                                {{ course }}
+                        <select v-model="student.course_name" class="form-select" >
+                            <option v-for="course in UNIVERSITY_COURSES" :key="course.name" :value="course.name">
+                                {{ course.name }}
                             </option>
                         </select>
                     </div>
@@ -130,8 +130,8 @@
                         <td>{{ s.email }}</td>
                         <td>{{ s.age }}</td>
                         <td>{{ s.gender }}</td>
-                        <td></td>
-                        <td>{{ s.courses }}</td>
+                        <td>{{ s.university_name }}</td>
+                        <td>{{ s.course_name }}</td>
                         <td>
                             <button class="btn btn-sm btn-primary" @click="editStudent(index)">
                                 Edit
@@ -141,6 +141,7 @@
                 </tbody>
             </table>
             <div class="mt-3">
+                <label>Total {{ this.pagination.total }}</label><br>
                 <button class="btn btn-sm btn-secondary me-2" :disabled="pagination.current_page === 1"
                     @click="changePage(pagination.current_page - 1)">
                     Previous
@@ -158,13 +159,15 @@
 
 <script>
 
+import Constants from '../../components/utilities/Constants.vue';
 export default {
+    mixins: [Constants],
     data() {
         return {
             student: {
                 name: '',
                 contact: '',
-                aadhaar: '',
+                adhar: '',
                 email: '',
                 age: '',
                 gender: '',
@@ -183,6 +186,8 @@ export default {
                 mobile: '',
                 my_occupation: '',
                 name_of_student: '',
+                course_name:'',
+                university_name:''
 
             },
             pagination: {
@@ -190,10 +195,11 @@ export default {
                 per_page: 5,
                 total: 0
             },
-            courseList: ['Math', 'Science', 'English', 'History'],
+            // courseList: ['Math', 'Science', 'English', 'History'],
             students: [],
             formview: 0,
-            editIndex: null
+            editIndex: null,
+            companyid:109
         }
     },
     mounted() {
@@ -211,11 +217,11 @@ export default {
                         let parsed = JSON.parse(item.jsontext);
                         // Parse inner courses string if present
                         
-                        try {
-                            parsed.courses = JSON.parse(parsed.courses);
-                        } catch (e) {
-                            parsed.courses = {};
-                        }
+                        // try {
+                        //     parsed.courses = JSON.parse(parsed.courses);
+                        // } catch (e) {
+                        //     parsed.courses = {};
+                        // }
                         return {
                             id: item.id,
                             ...parsed
@@ -233,14 +239,23 @@ export default {
         },
         submitStudent() {
             const { id, ...formWithoutId } = this.student;
+            console.log(formWithoutId)
             const jsonEncoded = JSON.stringify(formWithoutId);
             const payload = {
                 id: id,
                 jsontext: jsonEncoded,
+                companyid: this.companyid
                
             };
             console.log('submitstudent',payload);
-            this.formview = 0;
+            axios.post('api/student/form/create',payload)
+                .then(response=>{
+                    this.formview = 0;
+                    this.getstudentlogs()
+                })
+                .catch(error=>console.log(error))
+            
+            // this.formview = 0;
 
             // if (this.editIndex !== null) {
             //     console.log(' under if this editIndex');
@@ -269,14 +284,26 @@ export default {
             this.student = {
                 name: '',
                 contact: '',
-                aadhaar: '',
+                adhar: '',
                 email: '',
                 age: '',
                 gender: '',
                 institute: '',
                 courses: []
             }
-        }
+        },
+        changePage(page) {
+            if (this.pagination.current_page == page) {
+                return;
+            }
+
+            if (page < 1 || page > this.pagination.last_page) {
+                return;
+            }
+            this.pagination.current_page = page;
+            this.page = page;
+            this.getstudentlogs(page);
+        },
     }
 }
 </script>

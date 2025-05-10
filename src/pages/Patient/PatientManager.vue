@@ -92,7 +92,8 @@ import axios from 'axios';
         showForm: false,
         isEditing: false,
         editIndex: null,
-        currentPatient: null
+        currentPatient: null,
+        companyid:109
       };
     },
     mounted(){
@@ -103,8 +104,9 @@ import axios from 'axios';
     },
     methods: {
       getptlists(page = 1) {
+        let param = {companyid: this.companyid}
       axios
-        .post(`api/patient/lists?page=${page}`)
+        .post(`api/patient/lists?page=${page}`,param)
         .then((response) => {
           const { data, current_page, per_page, total } = response.data;
 

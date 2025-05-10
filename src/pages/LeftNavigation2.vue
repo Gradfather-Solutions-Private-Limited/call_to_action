@@ -14,12 +14,12 @@
                     <span class="link_name">Patient</span>
                 </router-link>
             </li>
-            <!-- <li>
-                <router-link to="/users">
+            <li>
+                <router-link to="/institute">
                     <i class='bx bx-buildings'></i>
                     <span class="link_name">Institute</span>
                 </router-link>
-            </li> -->
+            </li>
             <li>
                 <router-link to="/hospitalmanager">
                     <i class='bx bx-plus-medical'></i>

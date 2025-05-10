@@ -39,6 +39,18 @@ export default {
 				{ id: 3, name: 'Sand' },
 				{ id: 4, name: 'Other' }
 			],
+			UNIVERSITY_COURSES : [
+				{'id':1, 'name':'Industrial Training Institute (I.T.I)'},
+				{'id':2, 'name':'Polytechnic'},
+				{'id':3, 'name':'Bachelor of Technology (B.Tech)'},
+				{'id':4, 'name':'Diploma in Elementary Education (D.El.Ed)'},
+				{'id':5, 'name':'Bachelor of Education (B.Ed)'},
+				{'id':6, 'name':'Paramedical'},
+				{'id':7, 'name':'Pharmacy'},
+				{'id':8, 'name':'General Nursing and Midwifery (GNM-Nursing)'},
+				{'id':9, 'name':'Bachelor of Science in Nursing (B.Sc Nursing)'},
+				{'id':10, 'name':'Bachelor of Medicine, Bachelor of Surgery (M.B.B.S)'},
+			],
 			BANKS: [
 				{
 					"bankName": "INDIAN BANK",
