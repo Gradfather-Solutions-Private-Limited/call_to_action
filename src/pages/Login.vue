@@ -128,7 +128,7 @@ import Ls from '../lib/utils/Ls'
 				Ls.set('user',data.user)
 				this.$store.commit('assignloggedinuser',data.user)
 				console.log(data.user)
-				this.$router.push({name:"patientmanager"})
+				this.$router.push({path:"/patientmanager"})
 				// this.$store.commit('assignloadingstatus',0)
 			} else {
 				this.displayError = true;
