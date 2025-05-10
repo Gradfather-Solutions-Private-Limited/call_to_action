@@ -1,25 +1,35 @@
 <template>
-  <form >
+  <form>
     <div class="row">
-      <div class="mb-3">
+      <div class="mb-3 col-md-6">
+        <label>Name</label>
         <input type="text" class="form-control" placeholder="Name of the Hospital/Nursing Home" v-model="form.name"
           required />
       </div>
-      <div class="mb-3">
+      <div class="mb-3 col-md-6">
+        <label>Contact</label>
         <input type="text" class="form-control" placeholder="Official Contact Number of Hospital / Nursing Home"
           v-model="form.contact" required />
       </div>
-      <div class="mb-3">
+    </div>
+    <div class="row">
+      <div class="mb-3 col-md-6">
+        <label>Website</label>
         <input type="text" class="form-control" placeholder="Hospital/Nursing Home Official Website"
           v-model="form.website" />
       </div>
-      <div class="mb-3">
+      <div class="mb-3 col-md-6">
+        <label>Country Name</label>
         <select class="form-control" v-model="form.country">
           <option value="India">🇮🇳 India</option>
         </select>
       </div>
-      <div class="mb-3">
-        <input type="text" class="form-control" placeholder="Hospital/Nursing Home Official Website" v-model="form.state" />
+    </div>
+    <div class="row">
+      <div class="mb-3 col-md-6">
+        <label>State Name</label>
+        <input type="text" class="form-control" placeholder=""
+          v-model="form.state" />
 
         <!-- <select class="form-control" v-model="form.state">
           <option value="Andhra Pradesh">Andhra Pradesh</option>
@@ -28,8 +38,10 @@
           <option value="Kerala">Kerala</option>
         </select> -->
       </div>
-      <div class="mb-3">
-        <input type="text" class="form-control" placeholder="Hospital/Nursing Home Official Website" v-model="form.city" />
+      <div class="mb-3 col-md-6">
+        <label>City Name</label>
+        <input type="text" class="form-control" placeholder=""
+          v-model="form.city" />
 
         <!-- <select class="form-control" v-model="form.city">
           <option disabled selected>City</option>
@@ -38,6 +50,8 @@
           <option value="Visakhapatnam">Visakhapatnam</option>
         </select> -->
       </div>
+    </div>
+    <div class="row">
       <div class="form-check mb-3">
         <input class="form-check-input" type="checkbox" v-model="form.declaration" id="declaration" />
         <label class="form-check-label" for="declaration">
@@ -46,9 +60,12 @@
           I understand that any false information may result in rejection or removal of the patient's record.
         </label>
       </div>
+    </div>
+    <div class="row">
       <button @click="submitForm" class="btn btn-success w-100">Submit Data</button>
       <button class="btn btn-secondary w-100 mt-2" @click.prevent="$emit('cancel')">Cancel</button>
     </div>
+    
   </form>
 </template>
 
@@ -60,27 +77,25 @@ export default {
   },
   data() {
     return {
-      form:{
-
-      
-      name: '',
-      contact: '',
-      website: '',
-      country: 'India',
-      state: '',
-      city: '',
-      declaration: false,
-      address: '',
-      contact_of_student: '',
-      courses: {},
-      email: '',
-      fees: '',
-      id: '',
-      media_link: '',
-      mobile: '',
-      my_occupation: '',
-      name_of_student: '',
-      video_link: '',
+      form: {
+        name: '',
+        contact: '',
+        website: '',
+        country: 'India',
+        state: '',
+        city: '',
+        declaration: false,
+        address: '',
+        contact_of_student: '',
+        courses: {},
+        email: '',
+        fees: '',
+        id: '',
+        media_link: '',
+        mobile: '',
+        my_occupation: '',
+        name_of_student: '',
+        video_link: '',
       }
     };
   },
@@ -89,25 +104,25 @@ export default {
       immediate: true,
       handler(newVal) {
         if (newVal) {
-            this.form.name= newVal.name || '';
-            this.form.contact= newVal.contact || '';
-            this.form.website= newVal.website || '';
-            this.form.state=newVal.state || '';
-            this.form.city=newVal.city || '';
-            this.form.country= newVal.country || '';
-            this.form.declaration= newVal.declaration || '';
-            this.form.address = newVal.address || '';
-            this.form.contact_of_student = newVal.contact_of_student || '';
-            this.form.courses = newVal.courses || {};
-            this.form.email = newVal.email || '';
-            this.formfees = newVal.fees || '';
-            this.form.id = newVal.id || '';
-            this.form.media_link = newVal.media_link || '';
-            this.form.mobile = newVal.mobile || '';
-            this.form.my_occupation = newVal.my_occupation || '';
-            this.form.name_of_student = newVal.name_of_student || '';
-            this.form.video_link = newVal.video_link || '';
-          }
+          this.form.name = newVal.name || '';
+          this.form.contact = newVal.contact || '';
+          this.form.website = newVal.website || '';
+          this.form.state = newVal.state || '';
+          this.form.city = newVal.city || '';
+          this.form.country = newVal.country || '';
+          this.form.declaration = newVal.declaration || '';
+          this.form.address = newVal.address || '';
+          this.form.contact_of_student = newVal.contact_of_student || '';
+          this.form.courses = newVal.courses || {};
+          this.form.email = newVal.email || '';
+          this.formfees = newVal.fees || '';
+          this.form.id = newVal.id || '';
+          this.form.media_link = newVal.media_link || '';
+          this.form.mobile = newVal.mobile || '';
+          this.form.my_occupation = newVal.my_occupation || '';
+          this.form.name_of_student = newVal.name_of_student || '';
+          this.form.video_link = newVal.video_link || '';
+        }
       }
     }
   },

@@ -2,6 +2,7 @@
     <div class="card mt-10" v-if="formview == 1">
         <div class="card-body">
             <form @submit.prevent="submitStudent">
+
                 <div class="row">
                     <div class="mb-3 col-md-4">
                         <label class="form-label">Name</label>
@@ -50,31 +51,87 @@
                         </select>
                     </div>
                 </div>
-
+                <div class="row">
+                    <div class="mb-3 col-md-4">
+                        <label>Account Holder Name</label>
+                        <input v-model="student.account_name" type="text" class="form-control">
+                    </div>
+                    <div class="mb-3 col-md-4">
+                        <label>Account Number</label>
+                        <input v-model="student.account_number" type="number" class="form-control">
+                    </div>
+                    <div class="mb-3 col-md-4">
+                        <label>IFSC Code</label>
+                        <input v-model="student.ifsc" type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-3 col-md-4">
+                        <label>Select Country</label>
+                        <select class="form-select" v-model="student.country">
+                            <option value="India">India</option>
+                        </select>
+                    </div>
+                    <div class="mb-3 col-md-4">
+                        <label>Select State</label>
+                        <select class="form-select" v-model="student.state">
+                            <option value="up">Up</option>
+                            <option value="mp">Mp</option>
+                        </select>
+                    </div>
+                    <div class="mb-3 col-md-4">
+                        <label>Select City</label>
+                        <select class="form-select" v-model="student.city">
+                            <option value="Noida">Noida</option>
+                            <option value="Pune">Pune</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" 
+                            id="declaration" />
+                        <label class="form-check-label" for="declaration">
+                            I, hereby declare that all the information provided above is true, accurate, and complete to
+                            the
+                            best of my
+                            knowledge.
+                            I understand that any false information may result in rejection or removal of the patient's
+                            record.
+                        </label>
+                    </div>
+                </div>
                 <button class="btn btn-success">
                     {{ editIndex === null ? 'Submit' : 'Update' }} Data
                 </button>
             </form>
         </div>
     </div>
-    <div class="card mt-10" v-if="formview==0">
+    <div class="card mt-10" v-if="formview == 0">
         <div class="cord-body">
             <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th>Contact</th>
+                        <th>Aadhaar No</th>
                         <th>Email</th>
+                        <th>Age</th>
+                        <th>Gender</th>
                         <th>Institute</th>
-                        <th>Action</th>
+                        <th>Course</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="(s, index) in students" :key="index">
                         <td>{{ s.name }}</td>
-                        <td>{{ s.contact }}</td>
+                        <td>{{ s.contact_of_student }}</td>
+                        <td>{{ s.adhar }}</td>
                         <td>{{ s.email }}</td>
-                        <td>{{ s.institute }}</td>
+                        <td>{{ s.age }}</td>
+                        <td>{{ s.gender }}</td>
+                        <td></td>
+                        <td>{{ s.courses }}</td>
                         <td>
                             <button class="btn btn-sm btn-primary" @click="editStudent(index)">
                                 Edit
@@ -84,22 +141,17 @@
                 </tbody>
             </table>
             <div class="mt-3">
-          <button
-            class="btn btn-sm btn-secondary me-2"
-            :disabled="pagination.current_page === 1"
-            @click="changePage(pagination.current_page - 1)"
-          >
-            Previous
-          </button>
-          <span>Page {{ pagination.current_page }}</span>
-          <button
-            class="btn btn-sm btn-secondary ms-2"
-            :disabled="pagination.current_page * pagination.per_page >= pagination.total"
-            @click="changePage(pagination.current_page + 1)"
-          >
-            Next
-          </button>
-        </div>
+                <button class="btn btn-sm btn-secondary me-2" :disabled="pagination.current_page === 1"
+                    @click="changePage(pagination.current_page - 1)">
+                    Previous
+                </button>
+                <span>Page {{ pagination.current_page }}</span>
+                <button class="btn btn-sm btn-secondary ms-2"
+                    :disabled="pagination.current_page * pagination.per_page >= pagination.total"
+                    @click="changePage(pagination.current_page + 1)">
+                    Next
+                </button>
+            </div>
         </div>
     </div>
 </template>
@@ -117,7 +169,21 @@ export default {
                 age: '',
                 gender: '',
                 institute: '',
-                courses: []
+                account_number: '',
+                account_name: '',
+                ifsc: '',
+                country: '',
+                state: '',
+                city: '',
+                courses: [],
+                contact_of_student: '',
+                id: '',
+                illness: '',
+                media_link: '',
+                mobile: '',
+                my_occupation: '',
+                name_of_student: '',
+
             },
             pagination: {
                 current_page: 1,
@@ -126,11 +192,11 @@ export default {
             },
             courseList: ['Math', 'Science', 'English', 'History'],
             students: [],
-            formview:0,
+            formview: 0,
             editIndex: null
         }
     },
-    mounted(){
+    mounted() {
         this.getstudentlogs();
     },
     methods: {
@@ -138,47 +204,61 @@ export default {
             axios
                 .post(`api/student/lists?page=${page}`)
                 .then((response) => {
-                const { data, current_page, per_page, total } = response.data;
+                    console.log('response', response.data);
+                    const { data, current_page, per_page, total } = response.data;
 
-                this.students = data.map((item) => {
-                    let parsed = JSON.parse(item.jsontext);
-                    // Parse inner courses string if present
-                    try {
-                        parsed.courses = JSON.parse(parsed.courses);
-                    } catch (e) {
-                    parsed.courses = {};
-                    }
-                    return {
-                    id: item.id,
-                    ...parsed
-                    };
-                });
-                console.log(this.students);
-                this.pagination.current_page = current_page;
-                this.pagination.per_page = per_page;
-                this.pagination.total = total;
+                    this.students = data.map((item) => {
+                        let parsed = JSON.parse(item.jsontext);
+                        // Parse inner courses string if present
+                        
+                        try {
+                            parsed.courses = JSON.parse(parsed.courses);
+                        } catch (e) {
+                            parsed.courses = {};
+                        }
+                        return {
+                            id: item.id,
+                            ...parsed
+                        };
+                    });
+                    console.log(this.students);
+                    this.pagination.current_page = current_page;
+                    this.pagination.per_page = per_page;
+                    this.pagination.total = total;
                 })
 
                 .catch((error) => {
-                console.error('Failed to fetch patient list:', error);
+                    console.error('Failed to fetch patient list:', error);
                 });
         },
         submitStudent() {
-            if (this.editIndex !== null) {
-                this.students[this.editIndex] = { ...this.student }
-                this.editIndex = null
-                this.resetForm()
-            } else {
-                aiox
-                    .post('/api/students', this.student)
-                    .then(() => {
-                        this.students.push({ ...this.student })
-                        this.resetForm()
-                    })
-                    .catch(() => {
-                        alert('Submission failed')
-                    })
-            }
+            const { id, ...formWithoutId } = this.student;
+            const jsonEncoded = JSON.stringify(formWithoutId);
+            const payload = {
+                id: id,
+                jsontext: jsonEncoded,
+               
+            };
+            console.log('submitstudent',payload);
+            this.formview = 0;
+
+            // if (this.editIndex !== null) {
+            //     console.log(' under if this editIndex');
+            //     this.students[this.editIndex] = { ...this.student }
+            //     this.editIndex = null
+            //     this.resetForm()
+            // } else {
+            //     console.log('under else')
+            //     axios
+            //         .post('/api/students', this.student)
+            //         .then(() => {
+            //             this.students.push({ ...this.student })
+            //             this.resetForm()
+            //         })
+            //         .catch(() => {
+            //             alert('Submission failed')
+            //         })
+            // }
         },
         editStudent(index) {
             this.student = { ...this.students[index] }
