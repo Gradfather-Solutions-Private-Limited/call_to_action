@@ -24,7 +24,7 @@
               <td>{{ hospital.city }}</td>
               <td>
                 <button class="btn btn-sm btn-warning" @click="editHospital(index)">Edit</button>
-                <button class="btn btn-sm btn-danger" @click="deleteHospital(index)">Delete</button>
+                <button class="btn btn-sm btn-danger" @click="deleteHospital(hospital)">Delete</button>
               </td>
             </tr>
           </tbody>
@@ -120,9 +120,12 @@ export default {
       this.showForm = true;
       this.currentHospital = { ...this.hospitals[index] };
     },
-    deleteHospital(index) {
+    deleteHospital(data) {
       if (confirm('Are you sure you want to delete this hospital?')) {
-        this.hospitals.splice(index, 1);
+        axios.post('api/nursing/delete',{'id':data.id}).then(response =>{
+          console.log('response',response.data);
+          this.gethplist();
+        })
       }
     },
     handleSubmit(form) {

@@ -32,7 +32,7 @@
                 </td>
                 <td>
                   <button class="btn btn-sm btn-warning" @click="editPatient(index)">Edit</button>
-                  <button class="btn btn-sm btn-danger" @click="deletePatient(index)">Delete</button>
+                  <button class="btn btn-sm btn-danger" @click="deletePatient(patient)">Delete</button>
                 </td>
                 <td style="font-size: 24px;color: red;">
                     <i class='bx bxs-file-pdf' @click="generatePDF(index)"></i>
@@ -155,10 +155,13 @@ import axios from 'axios';
         this.showForm = true;
         this.currentPatient = { ...this.patients[index] }; // shallow copy
       },
-      deletePatient(index) {
+      deletePatient(data) {
         if (confirm('Are you sure you want to delete this patient?')) {
-          this.patients.splice(index, 1);
-        }
+        axios.post('api/patient/delete',{'id':data.id}).then(response =>{
+          console.log('response',response.data);
+          this.getptlists();
+        })
+      }
       },
       backtopages(i){
         if(i == 1){

@@ -120,6 +120,7 @@
                         <th>Gender</th>
                         <th>Institute</th>
                         <th>Course</th>
+                        <th style="width: 85px;">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -135,6 +136,9 @@
                         <td>
                             <button class="btn btn-sm btn-primary" @click="editStudent(index)">
                                 Edit
+                            </button>
+                            <button class="btn btn-sm btn-danger delstyle" @click="deleteStudent(s)">
+                                X
                             </button>
                         </td>
                     </tr>
@@ -237,6 +241,16 @@ export default {
                     console.error('Failed to fetch patient list:', error);
                 });
         },
+        deleteStudent(data){
+            if (confirm('Are you sure you want to delete this student?')) {
+            axios.post('api/student/delete',{'id':data.id}).then(response =>{
+                console.log('response',response.data);
+                this.getstudentlogs();
+            })
+        }
+            
+
+        },
         submitStudent() {
             const { id, ...formWithoutId } = this.student;
             console.log(formWithoutId)
@@ -307,3 +321,9 @@ export default {
     }
 }
 </script>
+<style scoped>
+.delstyle{
+    background-color: red;
+    color:white;
+}
+</style>
