@@ -4,6 +4,7 @@
         <table class="table table-bordered">
           <thead>
             <tr>
+              <th>S.No</th>
               <th>Name</th>
               <th>Mobile</th>
               <th>Age</th>
@@ -16,6 +17,7 @@
           </thead>
             <tbody>
               <tr v-for="(patient, index) in patients" :key="index">
+                <td>{{ getSerialNo(index) }}</td>
                 <td>{{ patient.name }}</td>
                 <td>{{ patient.mobile }}</td>
                 <td>{{ patient.age }}</td>
@@ -95,6 +97,7 @@ import { is } from 'quasar';
           per_page: 5,
           total: 0
         },
+       
         showForm: false,
         isEditing: false,
         editIndex: null,
@@ -142,6 +145,9 @@ import { is } from 'quasar';
           console.error('Failed to fetch patient list:', error);
         });
     },
+    getSerialNo(index){
+            return (this.pagination.current_page - 1) * this.pagination.per_page + index + 1;
+        },
     generatePDF(index){
         this.editIndex = index;
         this.isEditing = true;

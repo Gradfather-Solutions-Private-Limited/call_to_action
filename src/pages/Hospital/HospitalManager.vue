@@ -5,6 +5,7 @@
         <table class="table table-bordered">
           <thead>
             <tr>
+              <th>S.No</th>
               <th>Name</th>
               <th>Contact</th>
               <th>Website</th>
@@ -16,6 +17,7 @@
           </thead>
           <tbody>
             <tr v-for="(hospital, index) in hospitals" :key="index">
+              <td>{{ getSerialNo(index) }}</td>
               <td>{{ hospital.name }}</td>
               <td>{{ hospital.contact }}</td>
               <td>{{ hospital.website }}</td>
@@ -114,6 +116,9 @@ export default {
 
       this.gethplist(page);
     },
+    getSerialNo(index){
+            return (this.pagination.current_page - 1) * this.pagination.per_page + index + 1;
+        },
     editHospital(index) {
       this.editIndex = index;
       this.isEditing = true;

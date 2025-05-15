@@ -112,6 +112,7 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
+                        <th>S.No</th>
                         <th>Name</th>
                         <th>Contact</th>
                         <th>Aadhaar No</th>
@@ -126,6 +127,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="(s, index) in students" :key="index">
+                        <td>{{ getSerialNo(index) }}</td>
                         <td>{{ s.name }}</td>
                         <td>{{ s.contact_of_student }}</td>
                         <td>{{ s.adhar }}</td>
@@ -256,6 +258,9 @@ export default {
         }
             
 
+        },
+        getSerialNo(index){
+            return (this.pagination.current_page - 1) * this.pagination.per_page + index + 1;
         },
         submitStudent() {
             const { id, ...formWithoutId } = this.student;

@@ -32,6 +32,12 @@
                     <span class="link_name">Students</span>
                 </router-link>
             </li>
+            <li>
+                <router-link to="/mobilizermanager">
+                    <i class='bx bx-user'></i>
+                    <span class="link_name">Mobilizer</span>
+                </router-link>
+            </li>
           
             <li>
                 <router-link to="logout" @click="logout()">

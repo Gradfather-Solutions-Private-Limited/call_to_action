@@ -77,6 +77,7 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
+                        <th>S.No</th>
                         <th>Name</th>
                         <th>Contact</th>
                         <th>Email</th>
@@ -86,6 +87,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="(s, index) in institutes" :key="index">
+                        <td>{{getSerialNo(index)}}</td>
                         <td>{{ s.name }}</td>
                         <td>{{ s.mobile }}</td>
                         <td>{{ s.email  }}</td>
@@ -164,6 +166,7 @@ export default {
             total_no_of_records: 0,
             pagination: {
                 current_page: 1,
+                per_page: 5,
                 last_page: 1,
             },
             page: 1,
@@ -198,6 +201,9 @@ export default {
                     // this.institutes = response.data.data
                     this.total_no_of_records = response.data.total;
                     this.pagination.last_page = response.data.last_page;
+                    this.pagination.current_page = current_page;
+                    this.pagination.per_page = per_page;
+                   
                 })
                 .catch(error => console.log(error))
         },
@@ -270,6 +276,10 @@ export default {
             console.log(this.uploadedimage)
             this.amazonid = this.uploadedimage.amazonid ?? 0
             this.imageurl = this.uploadedimage?.images?.downloadurl
+        },
+        getSerialNo(index){
+            return (this.pagination.current_page - 1) * this.pagination.per_page + index + 1;
+
         },
         goToPage(page) {
             if (this.pagination.current_page == page) {
