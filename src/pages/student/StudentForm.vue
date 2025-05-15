@@ -120,7 +120,8 @@
                         <th>Gender</th>
                         <th>Institute</th>
                         <th>Course</th>
-                        <th style="width: 85px;">Action</th>
+                        <th>Admit/Not-Admit</th>
+                        <th style="width:15%;">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -133,12 +134,16 @@
                         <td>{{ s.gender }}</td>
                         <td>{{ s.university_name }}</td>
                         <td>{{ s.course_name }}</td>
-                        <td>
+                        <td>{{ s.is_admit==0?'Not-Admit' : 'Admit' }}</td>
+                        <td style="width: 15%;">
                             <button class="btn btn-sm btn-primary" @click="editStudent(index)">
                                 Edit
                             </button>
-                            <button class="btn btn-sm btn-danger delstyle" @click="deleteStudent(s)">
+                            <button class="btn btn-sm btn-danger delstyle ml-5" @click="deleteStudent(s)">
                                 X
+                            </button>
+                            <button v-if="s.is_admit==0" class="btn btn-sm btn-info ml-5 " @click="admitStudent(s)">
+                                Admit
                             </button>
                         </td>
                     </tr>
@@ -228,6 +233,7 @@ export default {
                         // }
                         return {
                             id: item.id,
+                            is_admit: item.is_admit,
                             ...parsed
                         };
                     });
@@ -318,6 +324,14 @@ export default {
             this.page = page;
             this.getstudentlogs(page);
         },
+        admitStudent(item){
+            if (confirm('Are you sure you want to admit this student?')) {
+            axios.post('api/student/admit',{'id':item.id}).then(response =>{
+                console.log('response',response.data);
+                this.getstudentlogs();
+            })
+            }
+        }
     }
 }
 </script>

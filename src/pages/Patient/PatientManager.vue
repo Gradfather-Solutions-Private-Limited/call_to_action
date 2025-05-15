@@ -9,6 +9,7 @@
               <th>Age</th>
               <th>Country</th>
               <th>Courses</th>
+              <th>Admit/Not-Admit</th>
               <th>Actions</th>
               <th></th>
           </tr>
@@ -31,8 +32,12 @@
                   </ul>
                 </td>
                 <td>
+                  {{ patient.is_admit == 0 ? 'Not-Admit' : 'Admit' }}
+                </td>
+                <td>
                   <button class="btn btn-sm btn-warning" @click="editPatient(index)">Edit</button>
-                  <button class="btn btn-sm btn-danger" @click="deletePatient(patient)">Delete</button>
+                  <button class="btn btn-sm btn-danger ml-5" @click="deletePatient(patient)">Delete</button>
+                  <button class="btn btn-sm btn-info ml-5" @click="admitPatient(patient)" v-if="patient.is_admit==0">Admit</button>
                 </td>
                 <td style="font-size: 24px;color: red;">
                     <i class='bx bxs-file-pdf' @click="generatePDF(index)"></i>
@@ -79,6 +84,7 @@ import AddPatientForm from './AddPatientForm.vue';
 import { mapGetters } from 'vuex'
 import PatientreportPdf from '../pdf/PatientreportPdf.vue';
 import axios from 'axios';
+import { is } from 'quasar';
   export default {
     components: { AddPatientForm,PatientreportPdf },
     data() {
@@ -122,6 +128,7 @@ import axios from 'axios';
 
             return {
               id: item.id,
+              is_admit: item.is_admit,
               ...parsed
             };
           });
@@ -189,6 +196,14 @@ import axios from 'axios';
         this.showForm = false;
         this.isEditing = false;
         this.currentPatient = null;
+      },
+      admitPatient(item){
+        if (confirm('Are you sure you want to admit this patient?')) {
+          axios.post('api/patient/admit',{'id':item.id}).then(response =>{
+            console.log('response',response.data);
+            this.getptlists();
+          })
+        }
       }
     }
   };
