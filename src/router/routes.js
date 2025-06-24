@@ -37,7 +37,22 @@ const routes = [
           component: () => import('../pages/institute/InstituteForm.vue'),
           
         },
-        
+        {
+          path: '/mobilizermanager',
+          component: () => import('../pages/Mobilizer/MobilizerManager.vue'),
+          
+        },
+        {
+          path: '/access',
+          component: () => import('../pages/access/ManageAccess.vue'),
+          
+        },
+         {
+          path: '/employee',
+          component: () => import('../pages/employee/EmployeeList.vue'),
+          
+        },
+
       ],
 
     }

@@ -38,7 +38,19 @@
                     <span class="link_name">Mobilizer</span>
                 </router-link>
             </li>
-          
+            <li>
+                <router-link to="/access">
+                    <i class="bx bx-toggles" ></i>
+                    <span class="link_name">Permission</span>
+                </router-link>
+            </li>
+            <li>
+                <router-link to="/employee">
+                    <i class="bx bx-user" ></i>
+                    <span class="link_name">Employee</span>
+                </router-link>
+            </li>
+
             <li>
                 <router-link to="logout" @click="logout()">
                     <i class='bx bx-log-out-circle'></i>

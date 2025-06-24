@@ -99,9 +99,9 @@ export default {
           };
           
         })
-        this.pagination.current_page = current_page;
-        this.pagination.per_page = per_page;
-        this.pagination.total = total;
+        // this.pagination.current_page = current_page;
+        // this.pagination.per_page = per_page;
+        // this.pagination.total = total;
       })
         .catch((error) => {
           console.error('Failed to fetch hospital list:', error);

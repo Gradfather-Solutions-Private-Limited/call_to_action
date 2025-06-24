@@ -14,7 +14,7 @@
     import { mapGetters } from 'vuex'
     
     import UserOperationCheckbox from './UserOperationCheckbox.vue'
-import Constants from './Constants.vue';
+// import Constants from './Constants.vue';
     export default {
         mixins:[Constants],
         components:{UserOperationCheckbox},
