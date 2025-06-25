@@ -21,8 +21,9 @@
                 <div class="card-body">
                     <div class="col-md-12 d-flex justify-content-center">
                         <div class="col-md-4">
-                            <select class="form-control" @change="getEmployee()" v-model="employeeid">
-                                <option :value="0">Select Employee</option>
+                            <select class="form-control" v-model="employeeid" @change="selecteduserchanged()">
+                                <option :value="0" >Select Employee</option>
+                                <option v-for="(item, index) in employees" :key="item.id" :value="item.id">{{ item.name }}</option>
                             </select>
                         </div>
                     </div>
@@ -59,38 +60,45 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-// import Constants from '../../components/utilities/Constants'
 import ModuleForm from './ModuleForm.vue'
 import ModuleOperations from './ModuleOperations.vue'
 // import ModuleOperationForm from './ModuleOperationForm.vue'
+import Constants from '../../components/utilities/Constants.vue'
 import axios from 'axios'
 export default {
     components: {
         ModuleForm, ModuleOperations,
         //  ModuleOperationForm
     },
-    //  mixins:[Constants],
+     mixins:[Constants],
     data() {
         return {
-            employeeid: 0
+            employeeid: 0,
+            projectid: 5
         }
     },
     computed: {
         ...mapGetters([
-            'accessmodules', 'viewno', 'loggedinuser'
+            'accessmodules', 'viewno', 'loggedinuser','employees'
         ])
     },
     mounted() {
+        this.getEmployee()
         this.refresh();
     },
     methods: {
         selecteduserchanged() {
             this.$store.commit('assignselecteduserid', this.employeeid)
         },
-        refresh() {
+        getEmployee(){
+             let payload = {fetchcolumns: 'id,name,email,username,mobile' }
+            this.getEmployeeList(payload)
+        },
+        async refresh() {
             // this.$store.dispatch('fetchemployees')
-            let param = { projectid: 2 }
-            axios.post('api/access/modules/fetch', param)
+           
+            let param = { projectid: this.projectid }
+            await axios.post('api/access/modules/fetch', param)
                 .then((response) => this.processResponse(response.data))
                 .catch((err) => {
                     console.log('', err)

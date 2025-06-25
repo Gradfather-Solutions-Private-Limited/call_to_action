@@ -518,6 +518,15 @@ export default {
 				}
 			});
 			this.$store.commit('storemastervalidation', secondarray);
+		},
+		getEmployeeList(param){
+			 axios.post('api/users/fetch', param).then(response => {
+                console.log('data', response.data);
+                this.$store.commit('assignemployees', response.data);
+            })
+                .catch((error) => {
+                    console.log('Failed to fetch employee list', error);
+                });
 		}
 	}
 }

@@ -57,7 +57,7 @@ export default {
             form: new window.Form({
                 id: 0,
                 module: '',
-                projectid: 2
+                projectid: 5
             }),
         }
     },
@@ -85,18 +85,18 @@ export default {
             this.form.errors.clear(event.target.name);
             this.errormessage = '';
         },
-        submit() {
-
-            axios.post('api/access/modules/createupdate', this.form)
-                .then(response => this.processResponse(response))
-                .catch(error => console.log(error));
+        submit(){
+            axios.post('api/access/modules/createupdate',this.form)
+                .then(response=>this.processResponse(response.data))
+                .catch(error=>console.log(error));
         },
         processResponse(data) {
+            console.log("data after api call ",data)
             this.$store.commit('updateappendaccessmodules', data)
             this.$store.commit('assignviewno', 1)
         },
         cancel() {
-            this.reset();
+           this.form.reset();
             this.$store.commit('assignviewno', 1)
         }
     }

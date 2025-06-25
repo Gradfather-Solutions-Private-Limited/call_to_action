@@ -40,7 +40,7 @@
             </li>
             <li>
                 <router-link to="/access">
-                    <i class="bx bx-toggles" ></i>
+                    <i class='bx bx-gears'></i> 
                     <span class="link_name">Permission</span>
                 </router-link>
             </li>

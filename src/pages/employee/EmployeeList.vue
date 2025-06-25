@@ -51,7 +51,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(item, index) in employeeList" :key="index">
+                    <tr v-for="(item, index) in employees" :key="index">
                         <td>{{ item.name }}</td>
                         <td>{{ item.mobile }}</td>
                         <td>{{ item.email }}</td>
@@ -82,8 +82,10 @@
     </div>
 </template>
 <script>
-
+import { mapGetters } from 'vuex';
+import Constants from '../../components/utilities/Constants.vue';
 export default {
+    mixins: [Constants],
     data() {
         return {
             employeeList: [],
@@ -109,19 +111,23 @@ export default {
             fetchcolumns: 'id,name,email,username,mobile'
         }
     },
+    computed :{
+        ...mapGetters(['employees'])
+    },
     mounted() {
-        this.getEmployeeList();
+        this.getEmployee();
     },
     methods: {
-        getEmployeeList() {
-            let param = { isemployee: 1, noofrec: this.perPage, currentpage: this.currentPage, fetchcolumns: this.fetchcolumns };
-            axios.post('api/users/fetch', param).then(response => {
-                console.log('data', response.data);
-                this.employeeList = response.data;
-            })
-                .catch((error) => {
-                    console.log('Failed to fetch employee list', error);
-                });
+        getEmployee() {
+            let param = { isemployee: 1, noofrec: this.perPage, currentpage: this.currentPage, fetchcolumns: this.fetchcolumns }
+            this.getEmployeeList(param)
+            // axios.post('api/users/fetch', param).then(response => {
+            //     console.log('data', response.data);
+            //     this.employeeList = response.data;
+            // })
+            //     .catch((error) => {
+            //         console.log('Failed to fetch employee list', error);
+            //     });
 
         },
         handleMobileInput(event) {
@@ -148,7 +154,7 @@ export default {
                 return;
             }
             this.currentPage = page;
-            this.getEmployeeList();
+            this.getEmployee();
         },
 
         openForm() {
@@ -173,7 +179,7 @@ export default {
                         message: response.data.message,
                         type: "success",
                     });
-                    this.getEmployeeList();
+                    this.getEmployee();
                     this.closeForm();
                 }
                 else {
