@@ -38,7 +38,7 @@
     </div>
     <div class="card mt-10" v-else>
         <div class="col-md-12 text-end mt-10">
-            <buttton class="btn btn-info" @click="openForm">Add Employee</buttton>
+            <button class="btn btn-info" @click="openForm">Add Employee</button>
         </div>
         <div class="card-body mt-10">
             <table class="table table-bordered">
