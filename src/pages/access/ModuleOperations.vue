@@ -1,5 +1,13 @@
 <template>
     <div>
+         <!-- <tr>
+            <td v-if="loggedinuser!=null && loggedinuser.role==3" colspan="7" style="border:none;">
+            
+            </td>
+        </tr> -->
+        <div class="text-end">
+            <button type="button"  class="btn text-white btn-secondary btn-sm" @click="add()">Add</button>
+        </div>
         <!-- <table style="width:80%" class="table-sm">
             <tr v-for="(item) in operations" v-bind:key="item.id"
                 style="float:left;margin-left:5px;margin-right:5px;width:30%;">
@@ -52,7 +60,8 @@ export default {
         add() {
             let obj = { id: 0, moduleid: this.moduleid, operation: '' }
             this.$store.commit('assignedititem', obj)
-            this.$router.push({ name: 'moduleoperation' })
+            this.$store.commit('assignviewno', 3)
+            // this.$router.push({ name: 'moduleoperation' })
         },
         showError() {
             this.$store.commit('assignloadingstatus', 0)

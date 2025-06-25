@@ -54,21 +54,20 @@
             </div>
         </div>
 
-        <module-form v-if="viewno == 2"></module-form>
-        <!-- <module-operation-form v-if="viewno == 3"></module-operation-form> -->
+        <module-form v-if="viewno == 2" ></module-form>
+        <module-operation-form v-if="viewno == 3"></module-operation-form>
     </div>
 </template>
 <script>
 import { mapGetters } from 'vuex'
 import ModuleForm from './ModuleForm.vue'
 import ModuleOperations from './ModuleOperations.vue'
-// import ModuleOperationForm from './ModuleOperationForm.vue'
+import ModuleOperationForm from './ModuleOperationForm.vue'
 import Constants from '../../components/utilities/Constants.vue'
 import axios from 'axios'
 export default {
     components: {
-        ModuleForm, ModuleOperations,
-        //  ModuleOperationForm
+        ModuleForm, ModuleOperations,ModuleOperationForm
     },
      mixins:[Constants],
     data() {
