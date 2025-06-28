@@ -7,7 +7,7 @@
                         <div class="col-md-8">
                             <h3 class="page-header"> Manage Access </h3>
                         </div>
-                        <div class="col-md-4 text-end">
+                        <div class="col-md-4 text-end" v-if="loggedinuser?.role==3">
                             <button @click="add()" class="btn btn-primary btn-sm"><i class="fa fa fa-user"></i> Add
                                 New</button>
                             <button @click="refresh()" class="btn btn-secondary btn-sm ml-10">
@@ -43,7 +43,7 @@
                             <tr v-for="(item, index) in accessmodules" v-bind:key="item.id">
                                 <td style="width: 10%;">{{ index + 1 }}</td>
                                 <td style="text-align:center;width: 20%;">{{ item.module }}
-                                    <div><button type="button" class="edit-btn" @click="editmodule(item)"><i
+                                    <div v-if="loggedinuser?.role==3"><button type="button" class="edit-btn" @click="editmodule(item)"><i
                                                 class="fa fa-pencil-square-o"></i> Edit</button></div>
                                 </td>
                                 <td><module-operations :moduleid="item.id" :appid="0"></module-operations></td>

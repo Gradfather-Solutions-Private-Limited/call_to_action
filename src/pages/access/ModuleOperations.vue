@@ -5,7 +5,7 @@
             
             </td>
         </tr> -->
-        <div class="text-end">
+        <div class="text-end" v-if="loggedinuser?.role==3">
             <button type="button"  class="btn text-white btn-secondary btn-sm" @click="add()">Add</button>
         </div>
         <!-- <table style="width:80%" class="table-sm">
