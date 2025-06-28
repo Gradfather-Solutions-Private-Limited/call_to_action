@@ -198,7 +198,7 @@ export default {
 		accessid(id){
 			// let idwithcomma  = ','+id;
 		
-			if(this.loggedinuser?.role == 3){
+			if(this.loggedinuser?.role == 2){
 				return true;
 			}
 			if(this.loggedinuser!=null){

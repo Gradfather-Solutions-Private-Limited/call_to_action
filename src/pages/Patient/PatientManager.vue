@@ -25,12 +25,7 @@
                 <td>
                   <ul>
                     <li
-                      v-for="(selected, course) in patient.courses"
-                      v-if="selected"
-                      :key="course"
-                    >
-                      {{ course }}
-                    </li>
+                      v-for="(selected, course) in patient.courses" :key="course" > {{ course }}</li>
                   </ul>
                 </td>
                 <td>
