@@ -66,7 +66,7 @@
                     </div> -->
                     <div class="name-job pl-5">
                         <div class="profile_name">{{ loggedinuser?.name }}</div>
-                        <div class="job">@ Copyright GFS Solutions Pvt Ltd</div>
+                        <!-- <div class="job">@ Copyright GFS Solutions Pvt Ltd</div> -->
                     </div>
                     <!-- <i class='bx bx-log-out' style="color: #fff;" @click="logout()"></i> -->
                 </div>
